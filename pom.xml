@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.cagst.common</groupId>
+    <artifactId>cagst-common</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+    <name>CAGST Common</name>
+    <inceptionYear>2019</inceptionYear>
+    <packaging>pom</packaging>
+
+    <organization>
+        <name>CAGST Solutions</name>
+        <url>http://www.cagst.com</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>cgaskill</id>
+            <name>Craig Gaskill</name>
+            <email>craig.gaskilll@gmail.com</email>
+            <roles>
+                <role>Software Architect</role>
+            </roles>
+            <timezone>America/Chicago</timezone>
+        </developer>
+    </developers>
+
+    <modules>
+        <module>cagst-common-jdbc</module>
+        <module>cagst-common-test</module>
+    </modules>
+
+    <properties>
+        <!-- Build Properties -->
+        <jdk-version>11</jdk-version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <project.scm.id>ntst-git</project.scm.id>
+
+        <!-- Apache Common Libraries -->
+        <commons-lang.version>3.7</commons-lang.version>
+
+        <!-- Logging Framework -->
+        <slf4j.version>1.7.25</slf4j.version>
+
+        <!-- Maven War Plugin -->
+        <maven-war.version>3.2.0</maven-war.version>
+
+        <!-- Spring Frameworks -->
+        <spring.version>5.0.5.RELEASE</spring.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Apache Libraries -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang.version}</version>
+            </dependency>
+
+
+            <!-- Logging Libraries (SLF4J) -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <!-- Spring Libraries -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jdbc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <!-- Maven Enforcer Plugin Settings -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.4.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <version>[${jdk-version},)</version>
+                                </requireJavaVersion>
+                                <requireMavenVersion>
+                                    <version>[3.0.4, 4.0)</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Maven Compiler Plugin Settings -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <showDeprecation>true</showDeprecation>
+                    <source>${jdk-version}</source>
+                    <target>${jdk-version}</target>
+                    <compilerVersion>${jdk-version}</compilerVersion>
+                </configuration>
+            </plugin>
+
+            <!-- Maven Source Plugin Settings -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Maven Release Plugin Settings -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <pushChanges>true</pushChanges>
+                    <tagNameFormat>${project.version}</tagNameFormat>
+                    <releaseProfiles>release</releaseProfiles>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>
